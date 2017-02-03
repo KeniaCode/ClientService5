@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="false"
+    android:fitsSystemWindows="true">
+
+    <requestFocus />
+
+
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="24dp">
+
+
+        <TextView
+            android:id="@+id/textView"
+            fontPath="fonts/fuente.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:text="Client Service"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/colorAccent" />
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/logo" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/user" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_input_user"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/AppTheme">
+
+                <EditText
+                    android:id="@+id/input_user"
+                    fontPath="fonts/fuente.ttf"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
+                    android:hint="Usuario"
+                    android:singleLine="true"
+                    android:textColor="#000000" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/locked" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_input_password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:theme="@style/AppTheme">
+
+                <EditText
+                    android:id="@+id/input_password"
+                    fontPath="fonts/fuente.ttf"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:focusableInTouchMode="true"
+                    android:hint="Contraseña"
+                    android:inputType="textPassword"
+                    android:singleLine="true"
+                    android:textColor="#000000" />
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/forgot_password"
+            fontPath="fonts/fuente.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:fontFamily="Century Gothic"
+            android:text="¿Olvidó su contraseña?"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="14dp" />
+
+        <Button
+            android:id="@+id/btn_login"
+            fontPath="fonts/fuente.ttf"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="12dp"
+            android:text="Iniciar Sesión"
+            android:textColor="#4e4e4e"
+            android:textSize="18dp"
+            />
+
+
+    </LinearLayout>
+</ScrollView>

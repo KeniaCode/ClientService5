@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Client Service</string>
+
+    <string name="aar_save">Terminar</string>
+    <string name="aar_paused">Pausado</string>
+    <string name="aar_recording">Grabando</string>
+    <string name="aar_playing">Reproduciendo</string>
+    <string name="string_iniciar_venta">Iniciar Venta</string>
+</resources>
