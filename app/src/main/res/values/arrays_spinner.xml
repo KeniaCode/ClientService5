@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tipo_de_prenda_array">
+        <item>Seleccione la prenda que no vendió...</item>
+        <item>Blusa</item>
+        <item>Playera</item>
+        <item>Camisa Mujer</item>
+        <item>Camisa Hombre</item>
+        <item>Pantalón</item>
+        <item>Zapatos</item>
+        <item>Cinchos</item>
+        <item>Sueter</item>
+    </string-array>
+
+    <string-array name="tallas_blusa_array">
+        <item>Seleccione una talla...</item>
+        <item>S</item>
+        <item>M</item>
+        <item>L</item>
+        <item>XL</item>
+        <item>XXL</item>
+        <item>XXL</item>
+    </string-array>
+
+
+    <string-array name="colores_blusa_array">
+        <item>Seleccione un color...</item>
+        <item>Negro</item>
+        <item>Rojo</item>
+        <item>Rosado</item>
+        <item>Azul</item>
+        <item>Menta</item>
+        <item>Beige</item>
+        <item>Gena</item>
+        <item>Coral</item>
+        <item>Melón</item>
+        <item>Floral</item>
+
+
+
+    </string-array>
+
+
+</resources>

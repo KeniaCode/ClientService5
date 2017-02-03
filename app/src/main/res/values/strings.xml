@@ -6,4 +6,12 @@
     <string name="aar_recording">Grabando</string>
     <string name="aar_playing">Reproduciendo</string>
     <string name="string_iniciar_venta">Iniciar Venta</string>
+    <string name="talla_s">S</string>
+    <string name="talla_m">M</string>
+    <string name="talla_l">L</string>
+    <string name="talla_xl">XL</string>
+    <string name="talla_xxl">XXL</string>
+    <string name="talla_xxxl">XXXL</string>
+    <string name="seleccione_una_talla" />
+    <string name="seleccione_talla" />
 </resources>

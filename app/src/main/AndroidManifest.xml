@@ -28,7 +28,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".IniciarVentaActivity" />
-        <activity android:name=".RetroalimentacionActivity"></activity>
 
         <activity
             android:name=".AudioRecorderActivity"

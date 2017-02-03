@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/button_check"
+        android:id="@+id/button_venta"
         fontPath="fonts/fuente.ttf"
         android:layout_width="match_parent"
         android:drawableLeft="@drawable/venta"
@@ -15,7 +15,7 @@
 
 
     <Button
-        android:id="@+id/button_check"
+        android:id="@+id/button_noventa"
         fontPath="fonts/fuente.ttf"
         android:layout_width="match_parent"
         android:drawableLeft="@drawable/noventa"
