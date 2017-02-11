@@ -30,4 +30,7 @@ dependencies {
     compile 'com.kailashdabhi:om-recorder:1.1.0'
     compile 'com.cleveroad:audiovisualization:1.0.0'
     //compile project(path: ':lib')
+    compile files('src/main/java/itg/grupo/clientservice/ksoap2.jar')
+    compile files('src/main/java/itg/grupo/clientservice/okhttp-3.6.0.jar')
+    compile files('src/main/java/itg/grupo/clientservice/okio-1.11.0.jar')
 }

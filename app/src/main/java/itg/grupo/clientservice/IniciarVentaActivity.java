@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,18 +23,37 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.PropertyInfo;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+
+import java.io.File;
+import java.io.IOException;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import itg.grupo.clientservice.model.AudioChannel;
 import itg.grupo.clientservice.model.AudioSampleRate;
 import itg.grupo.clientservice.model.AudioSource;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import okio.ByteString;
 
 
 public class IniciarVentaActivity extends AppCompatActivity {
     public static final String PREFS_NAME = "LoginPrefs";
     private static final int REQUEST_RECORD_AUDIO = 0;
-    private static final String AUDIO_FILE_PATH =
+    private static String AUDIO_FILE_PATH =
             Environment.getExternalStorageDirectory().getPath() + "/audio_venta.wav";
    // Spinner _spinner_talla_ropa;
 
@@ -69,16 +90,8 @@ public class IniciarVentaActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logut) {
-
-            //Reiniciar Shared Preferences
-          /*  SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.remove("logged");
-            editor.apply();
-            Singleton_ClientService.id_usuario = 0;
-
-            finish();*/
-
+            CallWebService llamada = new CallWebService();
+            llamada.execute("3");
         }
         return super.onOptionsItemSelected(item);
     }
@@ -89,7 +102,13 @@ public class IniciarVentaActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_RECORD_AUDIO) {
             if (resultCode == RESULT_OK) {
+                CallWebService llamada = new CallWebService();
+                llamada.execute("2");
+
                 Toast.makeText(this, "Audio recorded successfully!", Toast.LENGTH_SHORT).show();
+
+                uploadFile( requestCode, resultCode, data);
+
                 seleccionarResultado();
 
             } else if (resultCode == RESULT_CANCELED) {
@@ -251,6 +270,9 @@ public class IniciarVentaActivity extends AppCompatActivity {
 
 
     public void recordAudio(View v) {
+        CallWebService llamada = new CallWebService();
+        llamada.execute("1");
+
         AndroidAudioRecorder.with(this)
                 // Required
                 .setFilePath(AUDIO_FILE_PATH)
@@ -266,5 +288,172 @@ public class IniciarVentaActivity extends AppCompatActivity {
                 .record();
     }
 
+    //*********************CODIGO AGREGADO POR KEVIN ******************************************//
 
+    public void uploadFile(int requestCode, int resultCode, final Intent data){
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                File f  = new File(AUDIO_FILE_PATH);
+                String content_type  = getMimeType(f.getPath());
+
+                String file_path = f.getAbsolutePath();
+                OkHttpClient client = new OkHttpClient();
+                RequestBody file_body = RequestBody.create(MediaType.parse(content_type),f);
+
+                RequestBody request_body = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("type",content_type)
+                        .addFormDataPart("uploaded_file",file_path.substring(file_path.lastIndexOf("/")+1), file_body)
+                        .build();
+
+                Request request = new Request.Builder()
+                        .url("http://67.205.153.106/sitioClientService/subirAudio.php")
+                        .post(request_body)
+                        .build();
+
+                try {
+                    Response response = client.newCall(request).execute();
+                    if(!response.isSuccessful()){
+                        throw new IOException("Error : "+response);
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
+
+        t.start();
+    }
+    private String getMimeType(String path) {
+        String extension = MimeTypeMap.getFileExtensionFromUrl(path);
+        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+    }
+
+    class CallWebService extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPostExecute(String s) {
+            // text.setText("Square = " + s);
+        }
+
+        String resultado;
+        private String iniciarVenta(){
+            String result = "";
+            SoapObject soapObject = new SoapObject(variables.NAMESPACE, "crearVenta");
+            SoapObject soapObject1 = new SoapObject("", "");
+            soapObject1.addProperty("token", variables.token);
+            soapObject1.addProperty("sistema", variables.sistema);
+
+            PropertyInfo item = new PropertyInfo();
+            item.setType(soapObject1.getClass());
+            item.setName("datos_persona_entrada");
+            item.setValue(soapObject1);
+
+            soapObject.addProperty(item);
+            SoapSerializationEnvelope envelope =  new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.setOutputSoapObject(soapObject);
+            HttpTransportSE httpTransportSE = new HttpTransportSE(variables.URL);
+            try {
+                httpTransportSE.call(variables.SOAP_ACTION, envelope);
+                SoapObject response=(SoapObject)envelope.bodyIn;
+                SoapObject r2 = (SoapObject)response.getProperty(0);
+                result  = r2.getProperty(0).toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
+
+        private String finVenta(){
+            String result = "";
+            SoapObject soapObject = new SoapObject(variables.NAMESPACE, "finalizarVenta");
+            SoapObject soapObject1 = new SoapObject("", "");
+            soapObject1.addProperty("mensaje", variables.venta);
+
+            PropertyInfo item = new PropertyInfo();
+            item.setType(soapObject1.getClass());
+            item.setName("esactivo");
+            item.setValue(soapObject1);
+
+            soapObject.addProperty(item);
+            SoapSerializationEnvelope envelope =  new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.setOutputSoapObject(soapObject);
+            HttpTransportSE httpTransportSE = new HttpTransportSE(variables.URL);
+            try {
+                httpTransportSE.call(variables.SOAP_ACTION, envelope);
+                SoapObject response=(SoapObject)envelope.bodyIn;
+                SoapObject r2 = (SoapObject)response.getProperty(0);
+                result  = r2.getProperty(0).toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
+
+        private String cerrarSesion(){
+            String result = "";
+            SoapObject soapObject = new SoapObject(variables.NAMESPACE, "cerrarSesion");
+            SoapObject soapObject1 = new SoapObject("", "");
+            soapObject1.addProperty("usuario", variables.usuario);
+            soapObject1.addProperty("token", variables.token);
+            soapObject1.addProperty("sistema", variables.sistema);
+
+            PropertyInfo item = new PropertyInfo();
+            item.setType(soapObject1.getClass());
+            item.setName("datos_persona_entrada");
+            item.setValue(soapObject1);
+
+            soapObject.addProperty(item);
+            SoapSerializationEnvelope envelope =  new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.setOutputSoapObject(soapObject);
+            HttpTransportSE httpTransportSE = new HttpTransportSE(variables.URL);
+            try {
+                httpTransportSE.call(variables.SOAP_ACTION, envelope);
+                SoapObject response=(SoapObject)envelope.bodyIn;
+                SoapObject r2 = (SoapObject)response.getProperty(0);
+                result  = r2.getProperty(0).toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
+        @Override
+        protected String doInBackground(String... params) {
+            String result = "";
+
+            switch (params[0]){
+                case "1":
+                    result = iniciarVenta();
+                    try {
+                        variables.venta = result;
+                       /* AUDIO_FILE_PATH =
+                                Environment.getExternalStorageDirectory().getPath() + "/"+variables.venta+".wav";*/
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case "2":
+                    result = finVenta();
+                    try {
+                        System.out.println(result);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case "3":
+                    result = cerrarSesion();
+                    if(result.equals("1")){
+                        finish();
+                    }
+                    break;
+            }
+
+            resultado = result;
+            return result;
+        }
+    }
 }
