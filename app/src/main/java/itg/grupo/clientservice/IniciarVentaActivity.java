@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -89,11 +90,39 @@ public class IniciarVentaActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_logut) {
-            CallWebService llamada = new CallWebService();
-            llamada.execute("3");
+        if (id == R.id.action_logout) {
+            createDialogExit();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Crea un diálogo de alerta sencillo
+     */
+    public void createDialogExit() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(IniciarVentaActivity.this);
+
+        builder.setTitle("Cerrar Sesión")
+                .setMessage("¿Desea cerrar sesión?")
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                CallWebService llamada = new CallWebService();
+                                llamada.execute("3");
+                            }
+                        })
+                .setNegativeButton("CANCELAR",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+        final AlertDialog alert = builder.create();
+        alert.show();
+
     }
 
 
@@ -101,6 +130,7 @@ public class IniciarVentaActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_RECORD_AUDIO) {
+
             if (resultCode == RESULT_OK) {
                 CallWebService llamada = new CallWebService();
                 llamada.execute("2");
@@ -250,6 +280,9 @@ public class IniciarVentaActivity extends AppCompatActivity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(IniciarVentaActivity.this);
         alertDialogBuilder.setView(promptView);
         alertDialogBuilder.setCancelable(false);
+
+
+        EditText totalEditText= (EditText) promptView.findViewById(R.id.editText_total);
 
         alertDialogBuilder.setPositiveButton("Finalizar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {

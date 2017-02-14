@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Client Service</string>
+    <string name="app_name">Mónitor</string>
 
     <string name="aar_save">Terminar</string>
     <string name="aar_paused">Pausado</string>
