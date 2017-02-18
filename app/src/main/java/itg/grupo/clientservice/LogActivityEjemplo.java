@@ -41,14 +41,12 @@ public class LogActivityEjemplo extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-               // login();
+                // login();
                 Intent intent = new Intent(getApplicationContext(), IniciarVentaActivity.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
 
             }
         });
-
-
 
 
     }
@@ -112,7 +110,7 @@ public class LogActivityEjemplo extends AppCompatActivity {
         _loginButton.setEnabled(true);
         Intent intent = new Intent(getApplicationContext(), IniciarVentaActivity.class);
         startActivityForResult(intent, REQUEST_SIGNUP);
-     //   finish();
+        //   finish();
 
 
     }
@@ -129,7 +127,7 @@ public class LogActivityEjemplo extends AppCompatActivity {
         String user = _userText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        if (user.isEmpty()  || user.length()<4 || !android.util.Patterns.EMAIL_ADDRESS.matcher(user).matches()){
+        if (user.isEmpty() || user.length() < 4 || !android.util.Patterns.EMAIL_ADDRESS.matcher(user).matches()) {
             _userTil.setError("Enter a valid username or email address");
 
             valid = false;

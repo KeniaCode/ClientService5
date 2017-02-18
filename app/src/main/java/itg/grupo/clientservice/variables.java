@@ -13,5 +13,5 @@ public class variables {
     public static String URL = "http://67.205.153.106/lib/webservice.php?wsdl";
     public static String NAMESPACE = "http://67.205.153.106";
     public static String SOAP_ACTION = "http://67.205.153.106/lib";
-    public static String usuario="";
+    public static String usuario = "";
 }

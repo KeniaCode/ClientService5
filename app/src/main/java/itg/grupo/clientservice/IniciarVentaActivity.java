@@ -33,7 +33,6 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import itg.grupo.clientservice.model.AudioChannel;
@@ -81,12 +80,11 @@ public class IniciarVentaActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // TODO Auto-generated method stub
-        if( (keyCode==KeyEvent.KEYCODE_HOME))
-        {
+        if ((keyCode == KeyEvent.KEYCODE_HOME)) {
             // *** DO YOUR STUFF HERE ***
             return true;
-        }else{
-        return super.onKeyDown(keyCode, event);
+        } else {
+            return super.onKeyDown(keyCode, event);
         }
     }
 
@@ -225,11 +223,11 @@ public class IniciarVentaActivity extends AppCompatActivity {
 
                 String comentario = otras_especificaciones.getText().toString();
 
-                if(checkBoxTalla.isChecked()){
+                if (checkBoxTalla.isChecked()) {
                     String talla = spinner_talla_ropa.getSelectedItem().toString();
                 }
 
-                if (checkBoxTalla.isChecked()){
+                if (checkBoxTalla.isChecked()) {
                     String color = spinner_colores.getSelectedItem().toString();
                 }
 
@@ -251,34 +249,27 @@ public class IniciarVentaActivity extends AppCompatActivity {
         spinner_tipo_prenda.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             ArrayAdapter<CharSequence> adapterColores;
             ArrayAdapter<CharSequence> adapterTallas;
+
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 // your code here
                 if (position == 1) { //primera opcion es una blusa, cargamos las opciones de blusa
                     LlenarSpinners(R.array.tallas_blusa_tshirt_array, R.array.colores_array);
-                }
-                else if (position == 2) {
+                } else if (position == 2) {
                     LlenarSpinners(R.array.tallas_blusa_tshirt_array, R.array.colores_array);
-                }
-                else if (position == 3) {
+                } else if (position == 3) {
                     LlenarSpinners(R.array.tallas_camisa_array, R.array.colores_array);
-                }
-                else if (position == 4) {
+                } else if (position == 4) {
                     LlenarSpinners(R.array.tallas_pantalones_array, R.array.colores_array);
-                }
-                else if (position == 5) {
+                } else if (position == 5) {
                     LlenarSpinners(R.array.tallas_zapatos_array, R.array.colores_array);
-                }
-                else if (position == 6) {
+                } else if (position == 6) {
                     LlenarSpinners(R.array.tallas_pantalones_array, R.array.colores_array);
-                }
-                else if (position == 7) {
+                } else if (position == 7) {
                     LlenarSpinners(R.array.tallas_blusa_tshirt_array, R.array.colores_array);
-                }
-                else if (position == 8) {
+                } else if (position == 8) {
                     LlenarSpinners(R.array.tallas_pantalones_array, R.array.colores_array);
-                }
-                else {
+                } else {
                     spinner_colores.setAdapter(null);
                     spinner_talla_ropa.setAdapter(null);
                 }
@@ -345,7 +336,7 @@ public class IniciarVentaActivity extends AppCompatActivity {
         alert.show();
     }
 
-    public void LlenarSpinners(int arrayTallas,  int arrayColores){
+    public void LlenarSpinners(int arrayTallas, int arrayColores) {
 
         ArrayAdapter<CharSequence> adapterColores;
         ArrayAdapter<CharSequence> adapterTallas;
