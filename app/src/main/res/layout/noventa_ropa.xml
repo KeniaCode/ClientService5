@@ -37,7 +37,9 @@
             android:id="@+id/spinner_tipo_de_prenda"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="24dp"
+            android:prompt="@string/seleccione_la_prenda_que_no_vendio"
+            android:spinnerMode="dialog"/>
 
         <CheckBox
             android:id="@+id/checkBox_talla"
@@ -50,7 +52,10 @@
             android:id="@+id/spinner_talla_ropa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible" />
+            android:visibility="invisible"
+            android:prompt="@string/seleccione_talla"
+            android:spinnerMode="dialog"
+          />
 
         <CheckBox
             android:id="@+id/checkBox_color"
@@ -63,17 +68,27 @@
             android:id="@+id/spinner_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible" />
+            android:visibility="invisible"
+            android:layout_marginBottom="12dp"
+            android:prompt="@string/seleccione_un_color"
+            android:spinnerMode="dialog"/>
 
-        <Button
-            android:id="@+id/button_escanear_codigo"
-            fontPath="fonts/fuente.ttf"
-            android:layout_width="fill_parent"
+        <TextView
+            android:text="Otras Especificaciones:"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="12dp"
-            android:text="Escanear Código de Barras"
-            android:textColor="#4e4e4e"
-            android:textSize="18dp" />
+            android:id="@+id/textView5"
+            fontPath="fonts/fuente.ttf"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/editText_comentario"
+            android:layout_height="70dp"
+            fontPath="fonts/fuente.ttf"
+            />
+
     </LinearLayout>
 </ScrollView>

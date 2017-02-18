@@ -12,6 +12,7 @@
     <string name="talla_xl">XL</string>
     <string name="talla_xxl">XXL</string>
     <string name="talla_xxxl">XXXL</string>
-    <string name="seleccione_una_talla" />
-    <string name="seleccione_talla" />
+    <string name="seleccione_talla">Selecciona una talla:</string>
+    <string name="seleccione_un_color">Seleccione un color: </string>
+    <string name="seleccione_la_prenda_que_no_vendio">Seleccione la prenda que no vendió:</string>
 </resources>

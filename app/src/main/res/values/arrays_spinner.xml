@@ -1,43 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="tipo_de_prenda_array">
-        <item>Seleccione la prenda que no vendió...</item>
         <item>Blusa</item>
-        <item>Playera</item>
-        <item>Camisa Mujer</item>
-        <item>Camisa Hombre</item>
+        <item>T-shirt</item>
+        <item>Camisa</item>
         <item>Pantalón</item>
         <item>Zapatos</item>
         <item>Cinchos</item>
-        <item>Sueter</item>
+        <item>Sueter/Cazadora</item>
+        <item>Otros</item>
     </string-array>
 
-    <string-array name="tallas_blusa_array">
-        <item>Seleccione una talla...</item>
+    <string-array name="tallas_blusa_tshirt_array">
+        <item>XS</item>
         <item>S</item>
         <item>M</item>
         <item>L</item>
         <item>XL</item>
         <item>XXL</item>
-        <item>XXL</item>
+        <item>XXXL</item>
     </string-array>
 
+    <string-array name="tallas_camisa_array">
+        <item>XS</item>
+        <item>S</item>
+        <item>M</item>
+        <item>L</item>
+        <item>XL</item>
+        <item>XXL</item>
+        <item>XXXL</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18L</item>
+        <item>19</item>
+        <item>20</item>
+    </string-array>
 
-    <string-array name="colores_blusa_array">
-        <item>Seleccione un color...</item>
+    <string-array name="tallas_pantalones_array">
+        <item>XS</item>
+        <item>S</item>
+        <item>M</item>
+        <item>L</item>
+        <item>XL</item>
+        <item>XXL</item>
+        <item>XXXL</item>
+        <item>28</item>
+        <item>30</item>
+        <item>32</item>
+        <item>34</item>
+        <item>36</item>
+        <item>39</item>
+        <item>40</item>
+        <item>42</item>
+        <item>44</item>
+    </string-array>
+
+    <string-array name="tallas_zapatos_array">
+        <item>34</item>
+        <item>35</item>
+        <item>36</item>
+        <item>37</item>
+        <item>38</item>
+        <item>39</item>
+        <item>41</item>
+        <item>42</item>
+        <item>43</item>
+        <item>44</item>
+        <item>45</item>
+        <item>46</item>
+    </string-array>
+
+    <string-array name="colores_array">
+        <item>Amarrillo</item>
+        <item>Anaranjado</item>
+        <item>Azul</item>
+        <item>Beige</item>
+        <item>Blanco</item>
+        <item>Camuflaje</item>
+        <item>Caqui</item>
+        <item>Celeste</item>
+        <item>Coral</item>
+        <item>Corinto</item>
+        <item>Floral</item>
+        <item>Melón</item>
+        <item>Menta</item>
         <item>Negro</item>
         <item>Rojo</item>
         <item>Rosado</item>
-        <item>Azul</item>
-        <item>Menta</item>
-        <item>Beige</item>
-        <item>Gena</item>
-        <item>Coral</item>
-        <item>Melón</item>
-        <item>Floral</item>
-
-
-
+        <item>Verde</item>
     </string-array>
 
 
