@@ -317,11 +317,13 @@ public class IniciarVentaActivity extends AppCompatActivity {
         alertDialogBuilder.setCancelable(false);
 
 
-        EditText totalEditText = (EditText) promptView.findViewById(R.id.editText_total);
+        final EditText totalEditText = (EditText) promptView.findViewById(R.id.editText_total);
 
         alertDialogBuilder.setPositiveButton("Finalizar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
+                CallWebService llamada = new CallWebService();
+                llamada.execute("4", totalEditText.getText().toString());
             }
         });
 
@@ -515,6 +517,36 @@ public class IniciarVentaActivity extends AppCompatActivity {
             return result;
         }
 
+        private String ventaSatisfactoria(int monto){
+            String result = "";
+            SoapObject soapObject = new SoapObject(variables.NAMESPACE, "ventaSatisfactoria");
+            SoapObject soapObject1 = new SoapObject("", "");
+            soapObject1.addProperty("venta", variables.venta);
+            soapObject1.addProperty("monto", monto);
+            soapObject1.addProperty("cantidad", 1); //POR EL MOMENTO SE LE COLOCA 1
+            soapObject1.addProperty("producto", ""); //POR EL MOMENTO SE LE VACIO
+            soapObject1.addProperty("descripcion", ""); //POR EL MOMENTO SE LE VACIO
+
+            PropertyInfo item = new PropertyInfo();
+            item.setType(soapObject1.getClass());
+            item.setName("datos_venta");
+            item.setValue(soapObject1);
+
+            soapObject.addProperty(item);
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.setOutputSoapObject(soapObject);
+            HttpTransportSE httpTransportSE = new HttpTransportSE(variables.URL);
+            try {
+                httpTransportSE.call(variables.SOAP_ACTION, envelope);
+                SoapObject response = (SoapObject) envelope.bodyIn;
+                SoapObject r2 = (SoapObject) response.getProperty(0);
+                result = r2.getProperty(0).toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
+
         @Override
         protected String doInBackground(String... params) {
             String result = "";
@@ -543,6 +575,9 @@ public class IniciarVentaActivity extends AppCompatActivity {
                     if (result.equals("1")) {
                         finish();
                     }
+                    break;
+                case "4":
+                    result = ventaSatisfactoria(Integer.parseInt(params[1]));
                     break;
             }
 
