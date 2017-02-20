@@ -25,7 +25,7 @@ public class AndroidAudioRecorder {
     private AudioSource source = AudioSource.MIC;
     private AudioChannel channel = AudioChannel.MONO;
     private AudioSampleRate sampleRate = AudioSampleRate.HZ_11025;
-    private int color = Color.parseColor("#5e5e5e");
+    private int color = Color.parseColor("#DD5E5E5E");
     private int requestCode = 0;
     private boolean autoStart = false;
     private boolean keepDisplayOn = false;
