@@ -34,7 +34,7 @@
 
 
         <Spinner
-            android:id="@+id/spinner_tipo_de_prenda"
+            android:id="@+id/spinner_categoria"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -52,9 +52,9 @@
             android:id="@+id/spinner_talla_ropa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
             android:prompt="@string/seleccione_talla"
             android:spinnerMode="dialog"
+            android:visibility="invisible"
           />
 
         <CheckBox
@@ -68,26 +68,26 @@
             android:id="@+id/spinner_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
             android:layout_marginBottom="12dp"
             android:prompt="@string/seleccione_un_color"
-            android:spinnerMode="dialog"/>
+            android:spinnerMode="dialog"
+            android:visibility="invisible" />
 
         <TextView
-            android:text="Otras Especificaciones:"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/textView5"
             fontPath="fonts/fuente.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Otras Especificaciones:"
             />
 
         <EditText
-            android:layout_width="match_parent"
-            android:inputType="textMultiLine"
-            android:ems="10"
             android:id="@+id/editText_comentario"
-            android:layout_height="70dp"
             fontPath="fonts/fuente.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:ems="10"
+            android:inputType="textMultiLine"
             />
 
     </LinearLayout>

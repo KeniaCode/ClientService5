@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     Button _loginButton;
     EditText usuario;
     EditText password;
+    int permiso = 0;
 
     public static String md5(String pass) {
         String password = null;
@@ -116,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void msjErroneo() {
-        //Toast.makeText(this, "Credenciales incorrectas, inicio de sesión fallido", Toast.LENGTH_SHORT).show();
+        Toast.makeText(LoginActivity.this, "Credenciales incorrectas, inicio de sesión fallido", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -127,9 +129,15 @@ public class LoginActivity extends AppCompatActivity {
     class CallWebService extends AsyncTask<String, Void, String> {
         String resultado;
 
+
         @Override
         protected void onPostExecute(String s) {
             // text.setText("Square = " + s);
+            if (permiso == 3) {
+                cambiarPantalla();
+            } else {
+                msjErroneo();
+            }
         }
 
         private String login(String usuario, String token, String sistema) {
@@ -171,15 +179,9 @@ public class LoginActivity extends AppCompatActivity {
                     try {
                         obj = (JSONObject) new JSONTokener(result).nextValue();
                         variables.token = obj.get("token").toString();
-                        int permiso = Integer.parseInt(obj.getJSONArray("permisos").getJSONObject(0).get("codigo").toString());
-                        if (permiso == 3) {
-                            cambiarPantalla();
-                        } else {
-                            msjErroneo();
-                        }
+                        permiso = Integer.parseInt(obj.getJSONArray("permisos").getJSONObject(0).get("codigo").toString());
 
                     } catch (JSONException e) {
-                        msjErroneo();
                         e.printStackTrace();
                     }
                     break;

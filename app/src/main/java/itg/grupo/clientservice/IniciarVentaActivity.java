@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,6 +25,11 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.PropertyInfo;
@@ -54,10 +60,16 @@ public class IniciarVentaActivity extends AppCompatActivity {
             Environment.getExternalStorageDirectory().getPath() + "/audio_venta.wav";
     // Spinner _spinner_talla_ropa;
     Spinner spinner_talla_ropa;
-    Spinner spinner_colores;
+    Spinner spinner_colores, spinner_categoria;
     EditText otras_especificaciones;
     CheckBox checkBoxTalla;
     CheckBox checkBoxColor;
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +81,9 @@ public class IniciarVentaActivity extends AppCompatActivity {
 
         Util.requestPermission(this, Manifest.permission.RECORD_AUDIO);
         Util.requestPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -198,14 +213,14 @@ public class IniciarVentaActivity extends AppCompatActivity {
         alertDialogBuilder.setCancelable(false);
 
 
-        final Spinner spinner_tipo_prenda = (Spinner) promptView.findViewById(R.id.spinner_tipo_de_prenda);
+        spinner_categoria = (Spinner) promptView.findViewById(R.id.spinner_categoria);
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
                 R.array.tipo_de_prenda_array, android.R.layout.simple_spinner_item);
 // Specify the layout to use when the list of choices appears
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
-        spinner_tipo_prenda.setAdapter(
+        spinner_categoria.setAdapter(
                 new NothingSelectedSpinnerAdapter(
                         adapter1,
                         R.layout.contact_spinner_row_nothing_selected,
@@ -218,22 +233,37 @@ public class IniciarVentaActivity extends AppCompatActivity {
         checkBoxTalla = (CheckBox) promptView.findViewById(R.id.checkBox_talla);
         checkBoxColor = (CheckBox) promptView.findViewById(R.id.checkBox_color);
 
+
         alertDialogBuilder.setPositiveButton("Finalizar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
                 String comentario = otras_especificaciones.getText().toString();
 
-                if (checkBoxTalla.isChecked()) {
-                    String talla = spinner_talla_ropa.getSelectedItem().toString();
+                if (spinner_categoria.getSelectedItemPosition() > 0) {
+
+                    if (spinner_talla_ropa.getSelectedItemPosition() > 0 || spinner_talla_ropa.getSelectedItemPosition() > 0) {
+
+                        if (checkBoxTalla.isChecked()) {
+                            String talla = spinner_talla_ropa.getSelectedItem().toString();
+                        }
+
+                        if (checkBoxColor.isChecked()) {
+                            String color = spinner_colores.getSelectedItem().toString();
+                        }
+                        //Método para guardar en la DB los valores de no venta
+
+                        dialog.dismiss();
+                    } else {
+
+                    }
+
+
+                } else {
+
+
                 }
 
-                if (checkBoxColor.isChecked()) {
-                    String color = spinner_colores.getSelectedItem().toString();
-                }
 
-                //Método para guardar en la DB los valores de no venta
-
-                dialog.dismiss();
             }
         });
 
@@ -243,16 +273,17 @@ public class IniciarVentaActivity extends AppCompatActivity {
             }
         });
 
+        AlertDialog alert = alertDialogBuilder.create();
 
-        final AlertDialog alert = alertDialogBuilder.create();
 
-        spinner_tipo_prenda.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinner_categoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             ArrayAdapter<CharSequence> adapterColores;
             ArrayAdapter<CharSequence> adapterTallas;
 
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 // your code here
+
                 if (position == 1) { //primera opcion es una blusa, cargamos las opciones de blusa
                     LlenarSpinners(R.array.tallas_blusa_tshirt_array, R.array.colores_array);
                 } else if (position == 2) {
@@ -281,6 +312,7 @@ public class IniciarVentaActivity extends AppCompatActivity {
             }
 
         });
+
 
         checkBoxTalla.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -312,7 +344,7 @@ public class IniciarVentaActivity extends AppCompatActivity {
     public void VentaRopa() {
         LayoutInflater layoutInflater = LayoutInflater.from(IniciarVentaActivity.this);
         View promptView = layoutInflater.inflate(R.layout.venta_ropa, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(IniciarVentaActivity.this);
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(IniciarVentaActivity.this);
         alertDialogBuilder.setView(promptView);
         alertDialogBuilder.setCancelable(false);
 
@@ -321,9 +353,13 @@ public class IniciarVentaActivity extends AppCompatActivity {
 
         alertDialogBuilder.setPositiveButton("Finalizar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-                CallWebService llamada = new CallWebService();
-                llamada.execute("4", totalEditText.getText().toString());
+                if (totalEditText.getText().toString() != null) {
+                    dialog.dismiss();
+                    CallWebService llamada = new CallWebService();
+                    llamada.execute("4", totalEditText.getText().toString());
+                } else {
+
+                }
             }
         });
 
@@ -428,6 +464,42 @@ public class IniciarVentaActivity extends AppCompatActivity {
         return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
     }
 
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("IniciarVenta Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
+    }
+
     class CallWebService extends AsyncTask<String, Void, String> {
         String resultado;
 
@@ -517,7 +589,7 @@ public class IniciarVentaActivity extends AppCompatActivity {
             return result;
         }
 
-        private String ventaSatisfactoria(int monto){
+        private String ventaSatisfactoria(int monto) {
             String result = "";
             SoapObject soapObject = new SoapObject(variables.NAMESPACE, "ventaSatisfactoria");
             SoapObject soapObject1 = new SoapObject("", "");

@@ -33,4 +33,5 @@ dependencies {
     compile files('src/main/java/itg/grupo/clientservice/ksoap2.jar')
     compile files('src/main/java/itg/grupo/clientservice/okhttp-3.6.0.jar')
     compile files('src/main/java/itg/grupo/clientservice/okio-1.11.0.jar')
+    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
 }
