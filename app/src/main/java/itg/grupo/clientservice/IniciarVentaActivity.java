@@ -227,7 +227,7 @@ public class IniciarVentaActivity extends AppCompatActivity {
                     String talla = spinner_talla_ropa.getSelectedItem().toString();
                 }
 
-                if (checkBoxTalla.isChecked()) {
+                if (checkBoxColor.isChecked()) {
                     String color = spinner_colores.getSelectedItem().toString();
                 }
 
