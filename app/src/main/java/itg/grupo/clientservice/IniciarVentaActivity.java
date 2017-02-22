@@ -1,6 +1,7 @@
 package itg.grupo.clientservice;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -64,6 +65,7 @@ public class IniciarVentaActivity extends AppCompatActivity {
     EditText otras_especificaciones;
     CheckBox checkBoxTalla;
     CheckBox checkBoxColor;
+    String audiofinal = "";
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -423,13 +425,16 @@ public class IniciarVentaActivity extends AppCompatActivity {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
+                File sdcard = Environment.getExternalStorageDirectory();
+                File f = new File(sdcard,"audio_venta.wav");
+                File to = new File(sdcard,audiofinal+".wav");
+                //File f = new File(AUDIO_FILE_PATH);
+                f.renameTo(to);
+                String content_type = getMimeType(to.getPath());
 
-                File f = new File(AUDIO_FILE_PATH);
-                String content_type = getMimeType(f.getPath());
-
-                String file_path = f.getAbsolutePath();
+                String file_path = to.getAbsolutePath();
                 OkHttpClient client = new OkHttpClient();
-                RequestBody file_body = RequestBody.create(MediaType.parse(content_type), f);
+                RequestBody file_body = RequestBody.create(MediaType.parse(content_type), to);
 
                 RequestBody request_body = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
@@ -444,6 +449,7 @@ public class IniciarVentaActivity extends AppCompatActivity {
 
                 try {
                     Response response = client.newCall(request).execute();
+                    int x = 0;
                     if (!response.isSuccessful()) {
                         throw new IOException("Error : " + response);
                     }
@@ -628,6 +634,7 @@ public class IniciarVentaActivity extends AppCompatActivity {
                     result = iniciarVenta();
                     try {
                         variables.venta = result;
+                        audiofinal = variables.venta;
                        /* AUDIO_FILE_PATH =
                                 Environment.getExternalStorageDirectory().getPath() + "/"+variables.venta+".wav";*/
                     } catch (Exception e) {
